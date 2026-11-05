@@ -1,0 +1,16 @@
+const express = require('express');
+const router = express.Router();
+const account = require('../Controller/accountController');
+const customer = require('../Controller/customerController');
+const { protect } = require('../Middleware/auth');
+router.post('/createAccount', account.createAccount);
+router.post('/login', customer.loginUser);
+router.get('/accounts/me', protect, account.getMyAccount);
+router.get('/accounts/:accountId/balance', protect, account.checkBalance);
+router.get('/accounts/:accountId/transactions', protect, account.getTransactionHistory);
+router.post('/accounts/transfer', protect, account.transferFunds);
+router.get('/transactions/:transactionId/status', protect, account.getTransactionStatus);
+router.get('/accounts', protect, account.getAccounts);
+router.get('/accounts/name/:accountNumber', protect, account.getNameEnquiry);
+router.get('/accounts/:accountId/previous-transfers', protect, account.getPreviousTransfers);
+module.exports = router;

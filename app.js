@@ -1,0 +1,13 @@
+require('dotenv').config();
+const express = require('express');
+const path = require('path');
+const app = express();
+const mongoose = require('mongoose');
+app.use(express.json());
+app.use(express.static(path.join(__dirname, 'public')));
+const customerRoutes = require('./Routes/customerRoute');
+app.use('/api', customerRoutes);
+mongoose.connect(process.env.MONGODB_URI).then(() => console.log('MongoDB connected successfully')).catch(err => console.error('MongoDB connection error:', err));
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+module.exports = app;
